@@ -10,3 +10,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/monitoring', [MonitoringController::class, 'store'])->middleware('throttle:60,1');
+
+use App\Http\Controllers\Api\ControllingController;
+Route::get('/controlling/{kolam_id}', [ControllingController::class, 'show']);
