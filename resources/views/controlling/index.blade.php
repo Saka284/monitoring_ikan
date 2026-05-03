@@ -105,8 +105,38 @@
     <link href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
     <style>
-        .noUi-connect { background: #1e3a8a; }
-        .noUi-handle { border-radius: 50%; box-shadow: none; border: 2px solid #1e3a8a; }
+        /* Custom noUiSlider Styling */
+        .noUi-target {
+            background: #f3f4f6;
+            border: none;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            height: 8px;
+        }
+        .noUi-connect {
+            background: #1e3a8a; /* Navy */
+        }
+        .noUi-handle {
+            width: 20px !important;
+            height: 20px !important;
+            right: -10px !important;
+            top: -7px !important;
+            border-radius: 50% !important;
+            background: #fff !important;
+            border: 2px solid #1e3a8a !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+            cursor: pointer;
+        }
+        .noUi-handle:before, .noUi-handle:after {
+            display: none; /* Remove default lines */
+        }
+        .noUi-handle:hover {
+            background: #f8fafc !important;
+            transform: scale(1.1);
+            transition: transform 0.1s ease;
+        }
+        .noUi-active {
+            transform: scale(1.1);
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
