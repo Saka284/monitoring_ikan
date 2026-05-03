@@ -1,17 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Manajemen Kas') }}
             </h2>
-            <div class="flex gap-2">
-                <button onclick="document.getElementById('modalPemasukan').classList.remove('hidden')" class="bg-navy text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-blue-800">
+            <div class="grid grid-cols-2 sm:flex sm:flex-row gap-2 w-full sm:w-auto">
+                <button onclick="document.getElementById('modalPemasukan').classList.remove('hidden')" class="w-full sm:w-auto bg-navy text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-blue-800">
                     + Pemasukan
                 </button>
-                <button onclick="document.getElementById('modalPengeluaran').classList.remove('hidden')" class="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-red-700">
+                <button onclick="document.getElementById('modalPengeluaran').classList.remove('hidden')" class="w-full sm:w-auto bg-red-600 text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-red-700">
                     - Pengeluaran
                 </button>
-                <a href="{{ route('kas.export') }}" class="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-green-700">
+                <a href="{{ route('kas.export') }}" class="col-span-2 text-center w-full sm:w-auto bg-green-600 text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-green-700">
                     Export Excel
                 </a>
             </div>

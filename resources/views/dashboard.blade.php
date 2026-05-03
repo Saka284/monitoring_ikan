@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Dashboard Pemantauan') }}
             </h2>
@@ -50,25 +50,25 @@
                     <h3 class="text-lg font-bold text-gray-800">Grafik Parameter Air</h3>
                     <p class="text-sm text-gray-500">Visualisasi data sensor secara real-time</p>
                 </div>
-                <div class="flex flex-wrap gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 w-full md:w-auto">
                     <select id="metricSelector"
-                        class="rounded-md border-gray-300 text-sm focus:ring-navy focus:border-navy">
+                        class="w-full rounded-md border-gray-300 text-sm focus:ring-navy focus:border-navy">
                         <option value="ph">pH Air</option>
                         <option value="ketinggian_air">Ketinggian Air</option>
                         <option value="suhu_air">Suhu Air</option>
                         <option value="salinitas">Salinitas</option>
                     </select>
                     <select id="kolamSelector"
-                        class="rounded-md border-gray-300 text-sm focus:ring-navy focus:border-navy">
+                        class="w-full rounded-md border-gray-300 text-sm focus:ring-navy focus:border-navy">
                         <option value="">Semua Kolam</option>
                         @foreach($kolams as $kolam)
                             <option value="{{ $kolam->id }}">{{ $kolam->nama }}</option>
                         @endforeach
                     </select>
                     <input type="date" id="dateFilter" value="{{ date('Y-m-d') }}"
-                        class="rounded-md border-gray-300 text-sm focus:ring-navy focus:border-navy">
+                        class="w-full rounded-md border-gray-300 text-sm focus:ring-navy focus:border-navy">
                     <select id="hourFilter"
-                        class="rounded-md border-gray-300 text-sm focus:ring-navy focus:border-navy">
+                        class="w-full rounded-md border-gray-300 text-sm focus:ring-navy focus:border-navy">
                         <option value="">Seluruh Jam</option>
                         @for($i = 0; $i < 24; $i++)
                             <option value="{{ $i }}">{{ sprintf('%02d:00', $i) }}</option>

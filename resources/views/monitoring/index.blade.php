@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Tabel Data Monitoring') }}
             </h2>
-            <a href="{{ route('monitoring.export', request()->all()) }}" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-800 focus:outline-none focus:border-green-800 focus:ring ring-green-300 disabled:opacity-25 transition ease-in-out duration-150">
+            <a href="{{ route('monitoring.export', request()->all()) }}" class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-800 focus:outline-none focus:border-green-800 focus:ring ring-green-300 disabled:opacity-25 transition ease-in-out duration-150">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                 Export Excel
             </a>
@@ -14,8 +14,8 @@
     <div class="py-6">
         <!-- Filters -->
         <div class="bg-white p-4 rounded-lg shadow mb-6">
-            <form action="{{ route('monitoring.index') }}" method="GET" class="flex flex-wrap gap-4 items-end">
-                <div>
+            <form action="{{ route('monitoring.index') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-end">
+                <div class="w-full">
                     <label class="block text-sm font-medium text-gray-700">Pilih Kolam</label>
                     <select name="kolam_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-navy focus:ring-navy sm:text-sm">
                         <option value="">Semua Kolam</option>
@@ -24,19 +24,19 @@
                         @endforeach
                     </select>
                 </div>
-                <div>
+                <div class="w-full">
                     <label class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
                     <input type="date" name="start_date" value="{{ request('start_date') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-navy focus:ring-navy sm:text-sm">
                 </div>
-                <div>
+                <div class="w-full">
                     <label class="block text-sm font-medium text-gray-700">Tanggal Akhir</label>
                     <input type="date" name="end_date" value="{{ request('end_date') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-navy focus:ring-navy sm:text-sm">
                 </div>
-                <div class="flex gap-2">
-                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-navy border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-800 active:bg-blue-900 focus:outline-none focus:border-navy focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
+                <div class="flex gap-2 w-full">
+                    <button type="submit" class="flex-1 justify-center inline-flex items-center px-4 py-2 bg-navy border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-800 active:bg-blue-900 focus:outline-none focus:border-navy focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
                         Filter
                     </button>
-                    <a href="{{ route('monitoring.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 active:bg-gray-400 focus:outline-none focus:border-gray-400 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                    <a href="{{ route('monitoring.index') }}" class="flex-1 justify-center inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 active:bg-gray-400 focus:outline-none focus:border-gray-400 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
                         Reset
                     </a>
                 </div>

@@ -88,8 +88,8 @@
                 </div>
             </div>
 
-            <div class="flex justify-end">
-                <button type="submit" class="inline-flex items-center px-6 py-3 bg-navy border border-transparent rounded-md font-semibold text-base text-white uppercase tracking-widest hover:bg-blue-800 active:bg-blue-900 focus:outline-none focus:border-navy focus:ring ring-blue-300 transition ease-in-out duration-150">
+            <div class="flex justify-end mt-6">
+                <button type="submit" class="w-full md:w-auto justify-center inline-flex items-center px-6 py-3 bg-navy border border-transparent rounded-md font-semibold text-base text-white uppercase tracking-widest hover:bg-blue-800 active:bg-blue-900 focus:outline-none focus:border-navy focus:ring ring-blue-300 transition ease-in-out duration-150">
                     Update Threshold
                 </button>
             </div>
