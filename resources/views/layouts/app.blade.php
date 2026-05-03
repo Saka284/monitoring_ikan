@@ -15,10 +15,14 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div x-data="{ sidebarOpen: false }" class="min-h-screen bg-gray-100">
+            
             @include('layouts.sidebar')
 
-            <div class="ml-64 transition-all duration-300">
+            <!-- Mobile overlay -->
+            <div x-show="sidebarOpen" style="display: none;" class="fixed inset-0 z-40 bg-gray-900 bg-opacity-50 md:hidden" @click="sidebarOpen = false" x-transition.opacity></div>
+
+            <div class="transition-all duration-300 md:ml-64 flex flex-col min-h-screen">
                 @include('layouts.navigation')
 
                 <!-- Page Heading -->
@@ -31,7 +35,7 @@
                 @endisset
 
                 <!-- Page Content -->
-                <main class="px-6 pb-6 pt-2">
+                <main class="px-6 pb-6 pt-2 flex-grow">
                     {{ $slot }}
                 </main>
             </div>
