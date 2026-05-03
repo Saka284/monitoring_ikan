@@ -41,52 +41,59 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Chart Section -->
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <!-- Pie Chart Section -->
             <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Jenis Pengeluaran</h3>
+                <div class="h-64" id="expensePieChart"></div>
+            </div>
+
+            <!-- Trend Chart Section -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow">
                 <h3 class="text-lg font-bold text-gray-800 mb-4">Tren Keuangan</h3>
                 <div class="h-64" id="financeChart"></div>
             </div>
+        </div>
 
-            <!-- History Table -->
-            <div class="lg:col-span-2 bg-white rounded-lg shadow overflow-hidden">
-                <div class="p-6 border-b border-gray-200 bg-gray-50">
-                    <h3 class="text-lg font-bold text-gray-800">Riwayat Transaksi</h3>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+        <!-- History Table Section -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="p-6 border-b border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-bold text-gray-800">Riwayat Transaksi</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipe</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Jumlah</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($history as $item)
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipe</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Jumlah</th>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $item->tipe == 'pemasukan' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ ucfirst($item->tipe) }}
+                                    </span>
+                                    @if($item->kategori)
+                                        <span class="text-xs text-gray-400 ml-1">({{ ucfirst($item->kategori) }})</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $item->deskripsi }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-right {{ $item->tipe == 'pemasukan' ? 'text-green-600' : 'text-red-600' }}">
+                                    {{ $item->tipe == 'pemasukan' ? '+' : '-' }} Rp {{ number_format($item->jumlah, 0, ',', '.') }}
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($history as $item)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y') }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $item->tipe == 'pemasukan' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                            {{ ucfirst($item->tipe) }}
-                                        </span>
-                                        @if($item->kategori)
-                                            <span class="text-xs text-gray-400 ml-1">({{ $item->kategori }})</span>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $item->deskripsi }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-right {{ $item->tipe == 'pemasukan' ? 'text-green-600' : 'text-red-600' }}">
-                                        {{ $item->tipe == 'pemasukan' ? '+' : '-' }} Rp {{ number_format($item->jumlah, 0, ',', '.') }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="p-4">
-                    {{ $history->links() }}
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4">
+                {{ $history->links() }}
             </div>
         </div>
     </div>
@@ -169,6 +176,51 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Data for Pie Chart
+            const pieData = [];
+            @foreach($expenseByCategory as $expense)
+                pieData.push({
+                    name: '{{ ucfirst($expense->kategori) }}',
+                    y: {{ $expense->total }}
+                });
+            @endforeach
+
+            Highcharts.chart('expensePieChart', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: null
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>Rp {point.y:,.0f}</b> ({point.percentage:.1f}%)'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false // Matikan label di luar chart agar pie chart bisa membesar
+                        },
+                        showInLegend: true // Tampilkan keterangan di bawah (legend)
+                    }
+                },
+                legend: {
+                    labelFormat: '{name} ({percentage:.1f}%)' // Format teks di legend
+                },
+                series: [{
+                    name: 'Jumlah',
+                    colorByPoint: true,
+                    data: pieData
+                }],
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                }
+            });
+
             // Simple monthly aggregation for the chart
             const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
             const incomeData = new Array(12).fill(0);
@@ -215,6 +267,9 @@
                     color: 'rgba(239, 68, 68, 0.8)'
                 }],
                 credits: {
+                    enabled: false
+                },
+                exporting: {
                     enabled: false
                 }
             });

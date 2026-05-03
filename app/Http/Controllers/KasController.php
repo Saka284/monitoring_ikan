@@ -25,7 +25,7 @@ class KasController extends Controller
             ->select('id', 'deskripsi', 'jumlah', 'tanggal', DB::raw("'pengeluaran' as tipe"), 'kategori')
             ->union($pemasukanHistory)
             ->orderBy('tanggal', 'desc')
-            ->paginate(10);
+            ->paginate(5);
 
         // Chart data (Monthly)
         $monthlyIncome = Pemasukan::selectRaw("MONTH(tanggal) as month, SUM(jumlah) as total")
@@ -33,7 +33,11 @@ class KasController extends Controller
         $monthlyExpense = Pengeluaran::selectRaw("MONTH(tanggal) as month, SUM(jumlah) as total")
             ->groupBy('month')->get();
 
-        return view('kas.index', compact('totalPemasukan', 'totalPengeluaran', 'saldo', 'history', 'monthlyIncome', 'monthlyExpense'));
+        // Pie Chart data (Expense by category)
+        $expenseByCategory = Pengeluaran::selectRaw("kategori, SUM(jumlah) as total")
+            ->groupBy('kategori')->get();
+
+        return view('kas.index', compact('totalPemasukan', 'totalPengeluaran', 'saldo', 'history', 'monthlyIncome', 'monthlyExpense', 'expenseByCategory'));
     }
 
     public function storePemasukan(Request $request)
