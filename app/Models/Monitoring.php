@@ -24,4 +24,9 @@ class Monitoring extends Model
     {
         return $this->belongsTo(Kolam::class);
     }
+
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 }

@@ -19,12 +19,12 @@ class MonitoringController extends Controller
         $now = now();
         
         // Calculate delay in milliseconds (absolute value)
-        $delay = abs($now->diffInMilliseconds($deviceTime));
+        $delay = (int) abs($now->diffInMilliseconds($deviceTime));
         
         $monitoring = Monitoring::create(array_merge($validated, [
-            'device_timestamp' => $deviceTime->toDateTimeString(),
+            'device_timestamp' => $deviceTime->format('Y-m-d H:i:s'),
             'delay' => $delay,
-            'waktu_monitoring' => $now
+            'waktu_monitoring' => $now->format('Y-m-d H:i:s')
         ]));
         
         return response()->json([

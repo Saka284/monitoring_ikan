@@ -33,7 +33,7 @@ class DashboardController extends Controller
 
         if ($hour !== null && $hour !== '') {
             // Detail data for specific hour
-            $data = $query->whereHour('waktu_monitoring', $hour)
+            $data = $query->whereRaw('HOUR(waktu_monitoring) = ?', [$hour])
                 ->orderBy('waktu_monitoring', 'asc')
                 ->get(['waktu_monitoring', $metric]);
             
