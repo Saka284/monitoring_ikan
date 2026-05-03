@@ -17,11 +17,5 @@ class KolamSeeder extends Seeder
             'lokasi' => 'Sektor Utara',
             'luas' => '50m2'
         ]);
-
-        \App\Models\Kolam::create([
-            'nama' => 'Kolam B2',
-            'lokasi' => 'Sektor Selatan',
-            'luas' => '75m2'
-        ]);
     }
 }

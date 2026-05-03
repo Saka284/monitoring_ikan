@@ -17,28 +17,28 @@
             <!-- pH -->
             <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
                 <div class="text-sm text-gray-500 uppercase font-bold">pH Air</div>
-                <div class="text-2xl font-bold text-gray-800"><span id="metric-ph">{{ $latest?->ph ?? '--' }}</span>
+                <div class="text-2xl font-bold text-gray-800"><span id="metric-ph">{{ $latest?->ph ?? '0' }}</span>
                 </div>
             </div>
             <!-- Water Level -->
             <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-500">
                 <div class="text-sm text-gray-500 uppercase font-bold">Ketinggian Air</div>
                 <div class="text-2xl font-bold text-gray-800"><span
-                        id="metric-ketinggian">{{ $latest?->ketinggian_air ?? '--' }}</span> <span
+                        id="metric-ketinggian">{{ $latest?->ketinggian_air ?? '0' }}</span> <span
                         class="text-sm font-normal">cm</span></div>
             </div>
             <!-- Temperature -->
             <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500">
                 <div class="text-sm text-gray-500 uppercase font-bold">Suhu Air</div>
                 <div class="text-2xl font-bold text-gray-800"><span
-                        id="metric-suhu">{{ $latest?->suhu_air ?? '--' }}</span> <span
+                        id="metric-suhu">{{ $latest?->suhu_air ?? '0' }}</span> <span
                         class="text-sm font-normal">°C</span></div>
             </div>
             <!-- Salinity -->
             <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
                 <div class="text-sm text-gray-500 uppercase font-bold">Salinitas</div>
                 <div class="text-2xl font-bold text-gray-800"><span
-                        id="metric-salinitas">{{ $latest?->salinitas ?? '--' }}</span> <span
+                        id="metric-salinitas">{{ $latest?->salinitas ?? '0' }}</span> <span
                         class="text-sm font-normal">ppt</span></div>
             </div>
         </div>
@@ -93,14 +93,20 @@
                     fetch(`{{ route('api.latest-data') }}`)
                         .then(response => response.json())
                         .then(data => {
-                            if (data) {
-                                document.getElementById('metric-ph').innerText = data.ph;
-                                document.getElementById('metric-ketinggian').innerText = data.ketinggian_air;
-                                document.getElementById('metric-suhu').innerText = data.suhu_air;
-                                document.getElementById('metric-salinitas').innerText = data.salinitas;
-                                document.getElementById('metric-rssi').innerText = data.rssi;
-                                document.getElementById('metric-delay').innerText = data.delay;
-                                document.getElementById('metric-kolam').innerText = data.kolam ? data.kolam.nama : '';
+                            if (data && Object.keys(data).length > 0) {
+                                document.getElementById('metric-ph').innerText = data.ph ?? '0';
+                                document.getElementById('metric-ketinggian').innerText = data.ketinggian_air ?? '0';
+                                document.getElementById('metric-suhu').innerText = data.suhu_air ?? '0';
+                                document.getElementById('metric-salinitas').innerText = data.salinitas ?? '0';
+                                
+                                const rssiEl = document.getElementById('metric-rssi');
+                                if (rssiEl) rssiEl.innerText = data.rssi ?? '0';
+                                
+                                const delayEl = document.getElementById('metric-delay');
+                                if (delayEl) delayEl.innerText = data.delay ?? '0';
+                                
+                                const kolamEl = document.getElementById('metric-kolam');
+                                if (kolamEl) kolamEl.innerText = data.kolam ? data.kolam.nama : '';
 
                                 if (data.waktu_monitoring) {
                                     const date = new Date(data.waktu_monitoring);

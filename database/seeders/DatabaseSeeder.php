@@ -26,8 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             KolamSeeder::class,
             ThresholdSeeder::class,
-            MonitoringSeeder::class,
-            KasSeeder::class,
         ]);
     }
 }
