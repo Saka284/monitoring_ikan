@@ -15,6 +15,11 @@ class Monitoring extends Model
         'rssi', 'delay', 'device_timestamp', 'waktu_monitoring'
     ];
 
+    protected $casts = [
+        'waktu_monitoring' => 'datetime',
+        'device_timestamp' => 'datetime',
+    ];
+
     public function kolam()
     {
         return $this->belongsTo(Kolam::class);

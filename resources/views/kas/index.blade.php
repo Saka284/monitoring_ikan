@@ -45,9 +45,7 @@
             <!-- Chart Section -->
             <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow">
                 <h3 class="text-lg font-bold text-gray-800 mb-4">Tren Keuangan</h3>
-                <div class="h-64">
-                    <canvas id="financeChart"></canvas>
-                </div>
+                <div class="h-64" id="financeChart"></div>
             </div>
 
             <!-- History Table -->
@@ -166,11 +164,11 @@
     </div>
 
     @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('financeChart').getContext('2d');
-            
             // Simple monthly aggregation for the chart
             const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
             const incomeData = new Array(12).fill(0);
@@ -184,35 +182,40 @@
                 expenseData[{{ $m->month - 1 }}] = {{ $m->total }};
             @endforeach
 
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'Pemasukan',
-                            data: incomeData,
-                            backgroundColor: 'rgba(34, 197, 94, 0.6)',
-                            borderColor: 'rgb(34, 197, 94)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Pengeluaran',
-                            data: expenseData,
-                            backgroundColor: 'rgba(239, 68, 68, 0.6)',
-                            borderColor: 'rgb(239, 68, 68)',
-                            borderWidth: 1
-                        }
-                    ]
+            Highcharts.chart('financeChart', {
+                chart: {
+                    type: 'column'
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                title: {
+                    text: null
+                },
+                xAxis: {
+                    categories: labels,
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: null
                     }
+                },
+                plotOptions: {
+                    column: {
+                        borderWidth: 0,
+                        borderRadius: 2
+                    }
+                },
+                series: [{
+                    name: 'Pemasukan',
+                    data: incomeData,
+                    color: 'rgba(34, 197, 94, 0.8)'
+                }, {
+                    name: 'Pengeluaran',
+                    data: expenseData,
+                    color: 'rgba(239, 68, 68, 0.8)'
+                }],
+                credits: {
+                    enabled: false
                 }
             });
         });
