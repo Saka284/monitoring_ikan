@@ -145,14 +145,14 @@
 
 ## PHASE 10 — Finishing & QA
 
-- [ ] **10.1** Review semua validasi form & API (edge case: nilai negatif, null, overflow)
-- [ ] **10.2** Cek konsistensi UI: warna, font, spacing sesuai guideline (`#1e3a8a`)
-- [ ] **10.3** Test skenario ESP32 offline → pastikan sistem tetap berjalan normal
-- [ ] **10.4** Test ekspor Excel: Tabel Data & Laporan Kas
-- [ ] **10.5** Test autentikasi: akses tanpa login → redirect ke halaman login
-- [ ] **10.6** Optimasi query: tambahkan index pada `kolam_id` dan `waktu_monitoring` di tabel `monitorings`
-- [ ] **10.7** Review CORS: pastikan hanya method POST dari device yang diizinkan di `/api/monitoring`
-- [ ] **10.8** Dokumentasi singkat: update `README.md` (cara install, migrate, seeder, env setup)
+- [x] **10.1** Review semua validasi form & API (edge case: nilai negatif, null, overflow)
+- [x] **10.2** Cek konsistensi UI: warna, font, spacing sesuai guideline (`#1e3a8a`)
+- [x] **10.3** Test skenario ESP32 offline → pastikan sistem tetap berjalan normal
+- [x] **10.4** Test ekspor Excel: Tabel Data & Laporan Kas
+- [x] **10.5** Test autentikasi: akses tanpa login → redirect ke halaman login
+- [x] **10.6** Optimasi query: tambahkan index pada `kolam_id` dan `waktu_monitoring` di tabel `monitorings`
+- [x] **10.7** Review CORS: pastikan hanya method POST dari device yang diizinkan di `/api/monitoring`
+- [x] **10.8** Dokumentasi singkat: update `README.md` (cara install, migrate, seeder, env setup)
 
 ---
 

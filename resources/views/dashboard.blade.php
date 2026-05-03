@@ -11,26 +11,26 @@
             <!-- pH -->
             <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
                 <div class="text-sm text-gray-500 uppercase font-bold">pH Air</div>
-                <div class="text-2xl font-bold text-gray-800">{{ $latest?->ph ?? '--' }}</div>
-                <div class="text-xs text-gray-400 mt-1">Terakhir: {{ $latest?->waktu_monitoring ? \Carbon\Carbon::parse($latest->waktu_monitoring)->format('H:i') : '--' }}</div>
+                <div class="text-2xl font-bold text-gray-800"><span id="metric-ph">{{ $latest?->ph ?? '--' }}</span></div>
+                <div class="text-xs text-gray-400 mt-1">Terakhir: <span id="metric-time">{{ $latest?->waktu_monitoring ? \Carbon\Carbon::parse($latest->waktu_monitoring)->format('H:i') : '--' }}</span></div>
             </div>
             <!-- Water Level -->
             <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-500">
                 <div class="text-sm text-gray-500 uppercase font-bold">Ketinggian Air</div>
-                <div class="text-2xl font-bold text-gray-800">{{ $latest?->ketinggian_air ?? '--' }} <span class="text-sm font-normal">cm</span></div>
-                <div class="text-xs text-gray-400 mt-1">{{ $latest?->kolam->nama ?? '' }}</div>
+                <div class="text-2xl font-bold text-gray-800"><span id="metric-ketinggian">{{ $latest?->ketinggian_air ?? '--' }}</span> <span class="text-sm font-normal">cm</span></div>
+                <div class="text-xs text-gray-400 mt-1"><span id="metric-kolam">{{ $latest?->kolam->nama ?? '' }}</span></div>
             </div>
             <!-- Temperature -->
             <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500">
                 <div class="text-sm text-gray-500 uppercase font-bold">Suhu Air</div>
-                <div class="text-2xl font-bold text-gray-800">{{ $latest?->suhu_air ?? '--' }} <span class="text-sm font-normal">°C</span></div>
-                <div class="text-xs text-gray-400 mt-1">RSSI: {{ $latest?->rssi ?? '--' }} dBm</div>
+                <div class="text-2xl font-bold text-gray-800"><span id="metric-suhu">{{ $latest?->suhu_air ?? '--' }}</span> <span class="text-sm font-normal">°C</span></div>
+                <div class="text-xs text-gray-400 mt-1">RSSI: <span id="metric-rssi">{{ $latest?->rssi ?? '--' }}</span> dBm</div>
             </div>
             <!-- Salinity -->
             <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
                 <div class="text-sm text-gray-500 uppercase font-bold">Salinitas</div>
-                <div class="text-2xl font-bold text-gray-800">{{ $latest?->salinitas ?? '--' }} <span class="text-sm font-normal">ppt</span></div>
-                <div class="text-xs text-gray-400 mt-1">Delay: {{ $latest?->delay ?? '--' }} ms</div>
+                <div class="text-2xl font-bold text-gray-800"><span id="metric-salinitas">{{ $latest?->salinitas ?? '--' }}</span> <span class="text-sm font-normal">ppt</span></div>
+                <div class="text-xs text-gray-400 mt-1">Delay: <span id="metric-delay">{{ $latest?->delay ?? '--' }}</span> ms</div>
             </div>
         </div>
 
@@ -76,6 +76,27 @@
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('mainChart').getContext('2d');
             let mainChart;
+
+            const updateMetrics = () => {
+                fetch(`{{ route('api.latest-data') }}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            document.getElementById('metric-ph').innerText = data.ph;
+                            document.getElementById('metric-ketinggian').innerText = data.ketinggian_air;
+                            document.getElementById('metric-suhu').innerText = data.suhu_air;
+                            document.getElementById('metric-salinitas').innerText = data.salinitas;
+                            document.getElementById('metric-rssi').innerText = data.rssi;
+                            document.getElementById('metric-delay').innerText = data.delay;
+                            document.getElementById('metric-kolam').innerText = data.kolam ? data.kolam.nama : '';
+                            
+                            if (data.waktu_monitoring) {
+                                const date = new Date(data.waktu_monitoring);
+                                document.getElementById('metric-time').innerText = date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
+                            }
+                        }
+                    });
+            };
 
             const updateChart = () => {
                 const metric = document.getElementById('metricSelector').value;
@@ -134,7 +155,18 @@
             };
 
             // Initial load
+            updateMetrics();
             updateChart();
+
+            // Auto refresh every 30 seconds
+            setInterval(() => {
+                updateMetrics();
+                // Only refresh chart if date filter is today
+                const today = new Date().toISOString().split('T')[0];
+                if (document.getElementById('dateFilter').value === today) {
+                    updateChart();
+                }
+            }, 30000);
 
             // Event listeners
             document.getElementById('metricSelector').addEventListener('change', updateChart);

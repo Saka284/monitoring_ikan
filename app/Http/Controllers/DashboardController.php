@@ -56,4 +56,11 @@ class DashboardController extends Controller
             'metric' => $metric
         ]);
     }
+
+    public function latestData()
+    {
+        $latest = Monitoring::with('kolam')->latest('waktu_monitoring')->first();
+        
+        return response()->json($latest);
+    }
 }

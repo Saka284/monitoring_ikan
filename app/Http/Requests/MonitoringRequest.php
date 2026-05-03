@@ -24,11 +24,11 @@ class MonitoringRequest extends FormRequest
     {
         return [
             'kolam_id' => 'required|exists:kolams,id',
-            'ph' => 'required|numeric',
-            'ketinggian_air' => 'required|numeric',
-            'suhu_air' => 'required|numeric',
-            'salinitas' => 'required|numeric',
-            'rssi' => 'required|numeric',
+            'ph' => 'required|numeric|between:0,14',
+            'ketinggian_air' => 'required|numeric|min:0',
+            'suhu_air' => 'required|numeric|between:-50,100',
+            'salinitas' => 'required|numeric|min:0',
+            'rssi' => 'required|numeric|between:-150,0',
             'device_timestamp' => 'required|date',
         ];
     }
