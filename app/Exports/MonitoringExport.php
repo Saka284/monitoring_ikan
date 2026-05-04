@@ -48,6 +48,8 @@ class MonitoringExport implements FromQuery, WithHeadings, WithMapping
             'Suhu (°C)',
             'Salinitas (ppt)',
             'RSSI',
+            'SNR',
+            'PDR (%)',
             'Delay (ms)'
         ];
     }
@@ -62,6 +64,8 @@ class MonitoringExport implements FromQuery, WithHeadings, WithMapping
             $monitoring->suhu_air,
             $monitoring->salinitas,
             $monitoring->rssi,
+            $monitoring->snr,
+            $monitoring->pdr,
             $monitoring->delay,
         ];
     }

@@ -29,6 +29,8 @@ class MonitoringRequest extends FormRequest
             'suhu_air' => 'required|numeric|between:-50,100',
             'salinitas' => 'required|numeric|min:0',
             'rssi' => 'required|numeric|between:-150,0',
+            'snr' => 'required|numeric',
+            'pdr' => 'required|integer|between:0,100',
             'device_timestamp' => 'required|date',
         ];
     }

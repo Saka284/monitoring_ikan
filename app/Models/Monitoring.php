@@ -12,7 +12,7 @@ class Monitoring extends Model
 
     protected $fillable = [
         'kolam_id', 'ph', 'ketinggian_air', 'suhu_air', 'salinitas', 
-        'rssi', 'delay', 'device_timestamp', 'waktu_monitoring'
+        'rssi', 'snr', 'pdr', 'delay', 'device_timestamp', 'waktu_monitoring'
     ];
 
     protected $casts = [

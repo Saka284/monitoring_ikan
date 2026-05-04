@@ -75,6 +75,8 @@ Digunakan untuk menyimpan data sensor yang dikirimkan oleh perangkat (misal: ESP
 | `suhu_air`         | Float     | Ya    | Suhu air dalam Celcius (antara -50 sampai 100).                           |
 | `salinitas`        | Float     | Ya    | Tingkat salinitas/kadar garam air (minimal 0).                            |
 | `rssi`             | Float     | Ya    | Kekuatan sinyal WiFi perangkat (antara -150 sampai 0).                    |
+| `snr`              | Float     | Ya    | Signal-to-Noise Ratio perangkat.                                         |
+| `pdr`              | Integer   | Ya    | Packet Delivery Ratio perangkat dalam persen (0 - 100).                   |
 | `device_timestamp` | String    | Ya    | Waktu pengambilan data pada perangkat dengan format `YYYY-MM-DD HH:mm:ss`.|
 
 ### Contoh Request (JSON)
@@ -87,6 +89,8 @@ Digunakan untuk menyimpan data sensor yang dikirimkan oleh perangkat (misal: ESP
     "suhu_air": 28.4,
     "salinitas": 12.0,
     "rssi": -65,
+    "snr": 10.5,
+    "pdr": 98,
     "device_timestamp": "2026-05-03 13:15:00"
 }
 ```
@@ -105,6 +109,8 @@ curl -X POST http://domain-anda.com/api/monitoring \
            "suhu_air": 28.4,
            "salinitas": 12.0,
            "rssi": -65,
+           "snr": 10.5,
+           "pdr": 98,
            "device_timestamp": "2026-05-03 13:15:00"
          }'
 ```
@@ -122,6 +128,8 @@ curl -X POST http://domain-anda.com/api/monitoring \
         "suhu_air": 28.4,
         "salinitas": 12.0,
         "rssi": -65,
+        "snr": 10.5,
+        "pdr": 98,
         "device_timestamp": "2026-05-03 13:15:00",
         "delay": 1205,
         "waktu_monitoring": "2026-05-03T06:15:01.205000Z",
