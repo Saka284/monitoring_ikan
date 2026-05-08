@@ -8,10 +8,16 @@ use Illuminate\Http\Request;
 
 class ControllingController extends Controller
 {
+    /**
+     * Fungsi untuk mengambil data ambang batas (threshold) untuk alat IoT.
+     * Alat IoT akan memanggil ini untuk tahu kapan harus menghidupkan/mematikan alat (pompa/heater).
+     */
     public function show($kolam_id)
     {
+        // 1. Cari data threshold berdasarkan ID kolam
         $threshold = Threshold::where('kolam_id', $kolam_id)->first();
 
+        // 2. Jika tidak ditemukan, kirim pesan error 404
         if (!$threshold) {
             return response()->json([
                 'success' => false,
@@ -20,6 +26,7 @@ class ControllingController extends Controller
             ], 404);
         }
 
+        // 3. Jika ditemukan, kirim data batas sensor dalam format JSON
         return response()->json([
             'success' => true,
             'message' => 'Data controlling berhasil diambil',
