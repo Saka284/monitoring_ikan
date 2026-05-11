@@ -41,8 +41,11 @@ class MonitoringController extends Controller
         // 6. Ambil semua data kolam untuk pilihan di dropdown filter
         $kolams = Kolam::all();
 
-        // 7. Kirim data ke file view resources/views/monitoring/index.blade.php
-        return view('monitoring.index', compact('monitorings', 'kolams'));
+        // 7. Hitung statistik untuk hari ini
+        $totalToday = Monitoring::whereDate('waktu_monitoring', now()->toDateString())->count();
+
+        // 8. Kirim data ke file view resources/views/monitoring/index.blade.php
+        return view('monitoring.index', compact('monitorings', 'kolams', 'totalToday'));
     }
 
     /**

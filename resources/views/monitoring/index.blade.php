@@ -12,6 +12,10 @@
     </x-slot>
 
     <div class="py-6">
+        <!-- Minimal Counter -->
+        <div class="mb-4 text-sm text-gray-600">
+            Total data masuk hari ini: <span class="font-bold text-navy">{{ number_format($totalToday) }}</span> records
+        </div>
         <!-- Filters -->
         <div class="bg-white p-4 rounded-lg shadow mb-6">
             <form action="{{ route('monitoring.index') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-end">
